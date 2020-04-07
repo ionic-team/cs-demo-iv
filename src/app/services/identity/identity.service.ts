@@ -47,7 +47,7 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       androidPromptSubtitle: 'My subtitle',
       androidPromptDescription: 'any ol description',
       // androidPromptNegativeButtonText: 'my cancel button',
-      allowDevicePinFallback: true,
+      // allowDevicePinFallback: true,
       unlockOnReady: false,
       unlockOnAccess: true,
       lockAfter: 5000,
