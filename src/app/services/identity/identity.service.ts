@@ -103,6 +103,8 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       if (error.code === VaultErrorCodes.VaultLocked) {
         const vault = await this.getVault();
         await vault.clear();
+      } else {
+        throw error;
       }
     }
   }

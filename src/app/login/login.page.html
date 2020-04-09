@@ -20,7 +20,7 @@
     <ion-button expand="full" [disabled]="!loginForm.form.valid" (click)="signInClicked()" color="tertiary"
       >Sign in</ion-button
     >
-    <div class="unlock-app ion-text-center" *ngIf="displayVaultLogin" (click)="unlockClicked()">
+    <div class="unlock-app ion-text-center" *ngIf="loginType" (click)="unlockClicked()">
       <ion-icon name="lock-open"></ion-icon>
       <div>{{ loginType }}</div>
     </div>

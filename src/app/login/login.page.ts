@@ -3,12 +3,12 @@ import { NavController } from '@ionic/angular';
 
 import { AuthenticationService } from '../services/authentication';
 import { IdentityService } from '../services/identity';
-import { AuthMode } from '@ionic-enterprise/identity-vault';
+import { AuthMode, DefaultSession, VaultErrorCodes } from '@ionic-enterprise/identity-vault';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss']
+  styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
   email: string;
@@ -26,7 +26,7 @@ export class LoginPage {
 
   ionViewWillEnter() {
     try {
-      this.initLoginType();
+      this.setUnlockType();
     } catch (e) {
       console.error('Unable to check token status', e);
     }
@@ -36,14 +36,12 @@ export class LoginPage {
     const hasSession = await this.identity.hasStoredSession();
 
     if (hasSession) {
-      const session = await this.identity.restoreSession();
+      const session = await this.tryRestoreSession();
       if (session && session.token) {
         this.goToApp();
         return;
       }
     }
-
-    alert('Unable to authenticate. Please log in again');
   }
 
   signInClicked() {
@@ -70,21 +68,39 @@ export class LoginPage {
     this.navController.navigateRoot('/tabs/home');
   }
 
-  private async initLoginType(): Promise<void> {
+  private async tryRestoreSession(): Promise<DefaultSession> {
+    try {
+      return await this.identity.restoreSession();
+    } catch (error) {
+      alert('Unable to unlock the token');
+      this.setUnlockType();
+      if (error.code !== VaultErrorCodes.AuthFailed) {
+        throw error;
+      }
+    }
+  }
+
+  private async setUnlockType(): Promise<void> {
+    const previousLoginType = this.loginType;
+    await this.determineLoginType();
+    if (previousLoginType && !this.loginType) {
+      alert('The vault is no longer accessible. Please login again');
+    }
+  }
+
+  private async determineLoginType() {
     if (await this.identity.hasStoredSession()) {
       const authMode = await this.identity.getAuthMode();
       switch (authMode) {
         case AuthMode.BiometricAndPasscode:
-          this.displayVaultLogin = true;
           this.loginType = await this.translateBiometricType();
           this.loginType += ' (Passcode Fallback)';
           break;
         case AuthMode.BiometricOnly:
-          this.displayVaultLogin = true;
-          this.loginType = await this.translateBiometricType();
+          const displayVaultLogin = await this.identity.isBiometricsAvailable();
+          this.loginType = displayVaultLogin ? await this.translateBiometricType() : '';
           break;
         case AuthMode.PasscodeOnly:
-          this.displayVaultLogin = true;
           this.loginType = 'Passcode';
           break;
         case AuthMode.SecureStorage:
@@ -92,7 +108,6 @@ export class LoginPage {
           break;
       }
     } else {
-      this.displayVaultLogin = false;
       this.loginType = '';
     }
   }

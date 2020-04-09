@@ -1,25 +1,13 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import { AuthMode } from '@ionic-enterprise/identity-vault';
 
 import { of } from 'rxjs';
 
-import {
-  AuthenticationService,
-  createAuthenticationServiceMock
-} from '../services/authentication';
-import {
-  IdentityService,
-  createIdentityServiceMock
-} from '../services/identity';
+import { AuthenticationService, createAuthenticationServiceMock } from '../services/authentication';
+import { IdentityService, createIdentityServiceMock } from '../services/identity';
 import { LoginPage } from './login.page';
 import { createNavControllerMock } from '../../../test/mocks';
 
@@ -41,9 +29,9 @@ describe('LoginPage', () => {
       providers: [
         { provide: AuthenticationService, useValue: authentication },
         { provide: IdentityService, useValue: identity },
-        { provide: NavController, useValue: navController }
+        { provide: NavController, useValue: navController },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -69,17 +57,20 @@ describe('LoginPage', () => {
           identity.hasStoredSession.and.returnValue(Promise.resolve(true));
         });
 
-        it('displays the biometric login button', fakeAsync(() => {
-          component.ionViewWillEnter();
-          tick();
-          expect(component.displayVaultLogin).toEqual(true);
-        }));
-
         it('gets the biometric type', fakeAsync(() => {
+          identity.isBiometricsAvailable.and.returnValue(Promise.resolve(true));
           identity.getBiometricType.and.returnValue(Promise.resolve('blood'));
           component.ionViewWillEnter();
           tick();
           expect(component.loginType).toEqual('blood');
+        }));
+
+        it('does not get the biometric type if biometrics is not available', fakeAsync(() => {
+          identity.isBiometricsAvailable.and.returnValue(Promise.resolve(false));
+          identity.getBiometricType.and.returnValue(Promise.resolve('blood'));
+          component.ionViewWillEnter();
+          tick();
+          expect(component.loginType).toEqual('');
         }));
       });
 
@@ -87,12 +78,6 @@ describe('LoginPage', () => {
         beforeEach(() => {
           identity.hasStoredSession.and.returnValue(Promise.resolve(false));
         });
-
-        it('hides the biometric login button', fakeAsync(() => {
-          component.ionViewWillEnter();
-          tick();
-          expect(component.displayVaultLogin).toEqual(false);
-        }));
 
         it('does not get the biometric type', fakeAsync(() => {
           identity.getBiometricType.and.returnValue(Promise.resolve('blood'));
@@ -125,9 +110,7 @@ describe('LoginPage', () => {
 
       describe('when the token is non-blank', () => {
         beforeEach(() => {
-          identity.restoreSession.and.returnValue(
-            Promise.resolve({ token: 'I am a stored token' })
-          );
+          identity.restoreSession.and.returnValue(Promise.resolve({ token: 'I am a stored token' }));
         });
 
         it('navigates home', async () => {
@@ -156,10 +139,7 @@ describe('LoginPage', () => {
       component.email = 'jimmy@test.org';
       component.password = 'I Crack the Corn';
       component.signInClicked();
-      expect(authentication.login).toHaveBeenCalledWith(
-        'jimmy@test.org',
-        'I Crack the Corn'
-      );
+      expect(authentication.login).toHaveBeenCalledWith('jimmy@test.org', 'I Crack the Corn');
     });
 
     describe('on success', () => {
@@ -203,9 +183,7 @@ describe('LoginPage', () => {
 
       it('displays an error message', () => {
         component.signInClicked();
-        expect(component.errorMessage).toEqual(
-          'Invalid e-mail address or password'
-        );
+        expect(component.errorMessage).toEqual('Invalid e-mail address or password');
       });
 
       it('does not navigate', () => {
