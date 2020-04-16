@@ -7,12 +7,13 @@ import {
   HttpHandler,
   HttpRequest
 } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
 
 import { IdentityService } from '../identity';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private identity: IdentityService) {}
+  constructor(private identity: IdentityService, private navController: NavController) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -28,6 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
                 }
               });
             }
+          }).catch((err: any) => {
+            this.navController.navigateRoot('/login');
           })
         : Promise.resolve()
     ).pipe(flatMap(() => next.handle(req)));

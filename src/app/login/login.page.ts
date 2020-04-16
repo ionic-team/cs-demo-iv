@@ -74,7 +74,7 @@ export class LoginPage {
     } catch (error) {
       alert('Unable to unlock the token');
       this.setUnlockType();
-      if (error.code !== VaultErrorCodes.AuthFailed) {
+      if (error.code !== VaultErrorCodes.AuthFailed && error.code !== VaultErrorCodes.UserCanceledInteraction) {
         throw error;
       }
     }
