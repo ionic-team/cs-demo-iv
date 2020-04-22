@@ -97,7 +97,10 @@ export class LoginPage {
           this.loginType += ' (Passcode Fallback)';
           break;
         case AuthMode.BiometricOnly:
-          const displayVaultLogin = await this.identity.isBiometricsAvailable();
+          const vault = await this.identity.getVault();
+          const biometricsAvailable = await this.identity.isBiometricsAvailable();
+          const lockedOut = await vault.isLockedOutOfBiometrics(); // TODO: check config for allowSystemPinFallback = true
+          const displayVaultLogin = biometricsAvailable || lockedOut;
           this.loginType = displayVaultLogin ? await this.translateBiometricType() : '';
           break;
         case AuthMode.PasscodeOnly:

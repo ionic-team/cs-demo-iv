@@ -34,8 +34,12 @@ export class BrowserAuthService implements IdentityVault {
     return Promise.resolve();
   }
 
-  isLocked(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isLocked(): Promise<boolean> {
+    return false;
+  }
+
+  async isLockedOutOfBiometrics(): Promise<boolean> {
+    return true;
   }
 
   async isInUse(): Promise<boolean> {
