@@ -8,7 +8,7 @@ import { AuthMode, DefaultSession, VaultErrorCodes } from '@ionic-enterprise/ide
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  styleUrls: ['./login.page.scss']
 })
 export class LoginPage {
   email: string;
@@ -74,10 +74,14 @@ export class LoginPage {
     } catch (error) {
       alert('Unable to unlock the token');
       this.setUnlockType();
-      if (error.code !== VaultErrorCodes.AuthFailed) {
+      if (this.notFailedOrCancelled(error)) {
         throw error;
       }
     }
+  }
+
+  private notFailedOrCancelled(error: any) {
+    return error.code !== VaultErrorCodes.AuthFailed && error.code !== VaultErrorCodes.UserCanceledInteraction;
   }
 
   private async setUnlockType(): Promise<void> {
@@ -97,8 +101,12 @@ export class LoginPage {
           this.loginType += ' (Passcode Fallback)';
           break;
         case AuthMode.BiometricOnly:
-          const displayVaultLogin = await this.identity.isBiometricsAvailable();
-          this.loginType = displayVaultLogin ? await this.translateBiometricType() : '';
+          const vault = await this.identity.getVault();
+          const bioLockedOut = await vault.isLockedOutOfBiometrics();
+          const bioAvailable = await this.identity.isBiometricsAvailable();
+          // Making this conditional on Bio being locked out only makes sense if we are using
+          // allowSystemPinFallback like we are in this demo
+          this.loginType = bioAvailable || bioLockedOut ? await this.translateBiometricType() : '';
           break;
         case AuthMode.PasscodeOnly:
           this.loginType = 'Passcode';

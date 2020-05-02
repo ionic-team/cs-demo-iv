@@ -41,22 +41,22 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
     super(plt, {
       authMode: AuthMode.BiometricOnly,
       restoreSessionOnReady: false,
-      androidPromptTitle: 'Nick\'s Title',
-      androidPromptSubtitle: 'My subtitle',
-      androidPromptDescription: 'any ol description',
-      // androidPromptNegativeButtonText: 'my cancel button',
-      // allowDevicePinFallback: true,
+      androidPromptTitle: 'Identity Vault Demo',
+      androidPromptSubtitle: 'Demo All the Things!',
+      androidPromptDescription: 'You need to unlock me',
       unlockOnReady: false,
       unlockOnAccess: true,
       lockAfter: 5000,
-      hideScreenOnBackground: true
+      hideScreenOnBackground: true,
+      allowSystemPinFallback: true,
+      shouldClearVaultAfterTooManyFailedAttempts: false
     });
     this.changed = new Subject();
   }
 
   get(): Observable<User> {
     if (!this.user) {
-      return this.http.get<User>(`${environment.dataService}/users/current`).pipe(tap(u => (this.user = u)));
+      return this.http.get<User>(`${environment.dataService}/users/current`).pipe(tap((u) => (this.user = u)));
     } else {
       return of(this.user);
     }

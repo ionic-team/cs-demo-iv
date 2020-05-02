@@ -22,44 +22,36 @@ export class BrowserAuthService implements IdentityVault {
     lockAfter: 50000
   };
 
-  unsubscribe(): Promise<void> {
-    return Promise.resolve();
-  }
+  async unsubscribe(): Promise<void> {}
 
-  clear(): Promise<void> {
-    return this.storage.clear();
-  }
+  async clear(): Promise<void> {}
 
-  lock(): Promise<void> {
-    return Promise.resolve();
-  }
+  async lock(): Promise<void> {}
 
-  isLocked(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isLocked(): Promise<boolean> {
+    return false;
   }
 
   async isInUse(): Promise<boolean> {
     return !!(await this.storage.get('session'));
   }
 
-  getConfig(): Promise<PluginConfiguration> {
-    return Promise.resolve(this.config);
+  async getConfig(): Promise<PluginConfiguration> {
+    return this.config;
   }
 
-  remainingAttempts(): Promise<number> {
-    return Promise.resolve(5);
+  async remainingAttempts(): Promise<number> {
+    return 5;
   }
 
-  getUsername(): Promise<string> {
-    return Promise.resolve('MyUsername');
+  async getUsername(): Promise<string> {
+    return 'MyUsername';
   }
 
-  storeToken(token: any): Promise<void> {
-    return Promise.resolve();
-  }
+  async storeToken(token: any): Promise<void> {}
 
-  getToken(): Promise<any> {
-    return Promise.resolve('MyToken');
+  async getToken(): Promise<any> {
+    return 'MyToken';
   }
 
   async storeValue(key: string, value: any): Promise<void> {
@@ -78,52 +70,45 @@ export class BrowserAuthService implements IdentityVault {
     return this.storage.keys();
   }
 
-  getBiometricType(): Promise<BiometricType> {
-    const none: BiometricType = 'none';
-    return Promise.resolve(none);
+  async getBiometricType(): Promise<BiometricType> {
+    return 'none';
   }
 
-  setBiometricsEnabled(isBiometricsEnabled: boolean): Promise<void> {
-    return Promise.resolve();
+  async setBiometricsEnabled(isBiometricsEnabled: boolean): Promise<void> {}
+
+  async isBiometricsEnabled(): Promise<boolean> {
+    return false;
   }
 
-  isBiometricsEnabled(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isBiometricsAvailable(): Promise<boolean> {
+    return false;
   }
 
-  isBiometricsAvailable(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isBiometricsSupported(): Promise<boolean> {
+    return false;
   }
 
-  isBiometricsSupported(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isLockedOutOfBiometrics(): Promise<boolean> {
+    return false;
   }
 
-  isPasscodeSetupNeeded(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isPasscodeSetupNeeded(): Promise<boolean> {
+    return false;
   }
 
-  setPasscode(passcode?: string): Promise<void> {
-    return Promise.resolve();
+  async setPasscode(passcode?: string): Promise<void> {}
+
+  async isPasscodeEnabled(): Promise<boolean> {
+    return false;
   }
 
-  isPasscodeEnabled(): Promise<boolean> {
-    return Promise.resolve(false);
+  async isSecureStorageModeEnabled(): Promise<boolean> {
+    return true;
   }
 
-  isSecureStorageModeEnabled(): Promise<boolean> {
-    return Promise.resolve(true);
-  }
+  async setPasscodeEnabled(isPasscodeEnabled: boolean): Promise<void> {}
 
-  setPasscodeEnabled(isPasscodeEnabled: boolean): Promise<void> {
-    return Promise.resolve();
-  }
+  async setSecureStorageModeEnabled(enabled: boolean): Promise<void> {}
 
-  setSecureStorageModeEnabled(enabled: boolean): Promise<void> {
-    return Promise.resolve();
-  }
-
-  unlock(usingPasscode?: boolean, passcode?: string): Promise<void> {
-    return Promise.resolve();
-  }
+  async unlock(usingPasscode?: boolean, passcode?: string): Promise<void> {}
 }
