@@ -1,6 +1,6 @@
-# Ionic Customer Success Demo - Identity Vault on Capacitor
+# Ionic Customer Success Demo - Identity Vault
 
-This application shows the use of Ionic's Identity Vault within a hybrid mobile application that was built using Capacitor. We assume that you have access to Ioinic's Identity Vault product. If this is not the case, please contact our sales department.
+This application shows the use of Ionic's Identity Vault within a hybrid mobile application. We assume that you have access to Ioinic's Identity Vault product. If this is not the case, please contact our sales department.
 
 ## Building
 
@@ -10,10 +10,12 @@ Once Ionic Enterprise Edition has been configured in this project, follow these 
 
 - `npm i`
 - `npm run build`
+- `npx cap update` (only required after initial cloning of repo or when updating plugins)
 - `npx cap open ios` - to open Xcode in order to build and run on an iOS device
 - `npx cap open android` - to open Android Studio in order to build and run on an Android device
 
 This application connects to an API service that we have. A test user exists with the following credentials:
 
 email: test@test.com
+
 password: test
