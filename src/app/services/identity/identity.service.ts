@@ -39,11 +39,10 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
     private settings: SettingsService
   ) {
     super(plt, {
-      authMode: AuthMode.BiometricOnly,
-      restoreSessionOnReady: false,
       androidPromptTitle: 'Identity Vault Demo',
       androidPromptSubtitle: 'Demo All the Things!',
       androidPromptDescription: 'You need to unlock me',
+      restoreSessionOnReady: false,
       unlockOnReady: false,
       unlockOnAccess: true,
       lockAfter: 5000,
