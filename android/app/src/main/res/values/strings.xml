@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">CS Demo IVCap</string>
-    <string name="title_activity_main">CS Demo IVCap</string>
+    <string name="app_name">CS Demo IV</string>
+    <string name="title_activity_main">CS Demo IV</string>
     <string name="package_name">io.ionic.csidentityvalutdemo</string>
     <string name="custom_url_scheme">io.ionic.csidentityvalutdemo</string>
 </resources>
