@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { Platform } from '@ionic/angular';
+import { Platform, NavController } from '@ionic/angular';
+import { DefaultSession } from '@ionic-enterprise/identity-vault';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 
 import { IdentityService } from './services/identity';
@@ -10,8 +11,9 @@ import { IdentityService } from './services/identity';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  constructor(private identity: IdentityService, private platform: Platform) {
+  constructor(private identity: IdentityService, private navController: NavController, private platform: Platform) {
     this.initializeApp();
+    this.identity.changed.subscribe(session => this.handleSessionChange(session));
   }
 
   async initializeApp() {
@@ -24,6 +26,14 @@ export class AppComponent {
       if (this.platform.is('android')) {
         StatusBar.setBackgroundColor({ color: '#3171e0' });
       }
+    }
+  }
+
+  private handleSessionChange(session: DefaultSession) {
+    if (session) {
+      this.navController.navigateRoot(['tabs', 'home']);
+    } else {
+      this.navController.navigateRoot(['login']);
     }
   }
 }

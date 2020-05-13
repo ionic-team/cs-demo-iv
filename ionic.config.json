@@ -1,4 +1,7 @@
 {
   "name": "cs-demo-iv",
-  "type": "angular"
+  "type": "angular",
+  "integrations": {
+    "capacitor": {}
+  }
 }

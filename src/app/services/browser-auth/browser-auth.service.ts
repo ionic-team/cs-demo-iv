@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { BiometricType, IdentityVault, PluginConfiguration, AuthMode } from '@ionic-enterprise/identity-vault';
+import {
+  BiometricType,
+  IdentityVault,
+  PluginConfiguration,
+  AuthMode,
+  SupportedBiometricType
+} from '@ionic-enterprise/identity-vault';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +78,10 @@ export class BrowserAuthService implements IdentityVault {
 
   async getBiometricType(): Promise<BiometricType> {
     return 'none';
+  }
+
+  async getAvailableHardware(): Promise<Array<SupportedBiometricType>> {
+    return [];
   }
 
   async setBiometricsEnabled(isBiometricsEnabled: boolean): Promise<void> {}

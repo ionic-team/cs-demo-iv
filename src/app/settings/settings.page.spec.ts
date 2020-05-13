@@ -1,14 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NavController } from '@ionic/angular';
 
 import { SettingsPage } from './settings.page';
-import {
-  createAuthenticationServiceMock,
-  AuthenticationService
-} from '../services/authentication';
+import { createAuthenticationServiceMock, AuthenticationService } from '../services/authentication';
 import { createIdentityServiceMock, IdentityService } from '../services/identity';
-import { createNavControllerMock } from '../../../test/mocks';
 import { SettingsService } from '../services/settings/settings.service';
 import { createSettingsServiceMock } from '../services/settings/settings.mock';
 
@@ -23,7 +18,6 @@ describe('SettingsPage', () => {
       providers: [
         { provide: AuthenticationService, useFactory: createAuthenticationServiceMock },
         { provide: IdentityService, useFactory: createIdentityServiceMock },
-        { provide: NavController, useFactory: createNavControllerMock },
         { provide: SettingsService, useFactory: createSettingsServiceMock }
       ]
     }).compileComponents();

@@ -15,28 +15,20 @@ export class SettingsService {
 
   async useBiometrics(): Promise<boolean> {
     const v = await this.storage.get(this.keys.biometrics);
-    console.log('useBiometrics:', v);
     return v;
   }
 
   async usePasscode(): Promise<boolean> {
     const v = await this.storage.get(this.keys.passcode);
-    console.log('usPasscode:', v);
     return v;
   }
 
   async useSecureStorageMode(): Promise<boolean> {
     const v = await this.storage.get(this.keys.secureStorageMode);
-    console.log('useSecureStorage:', v);
     return v;
   }
 
-  async store(settings: {
-    useBiometrics: boolean;
-    usePasscode: boolean;
-    useSecureStorageMode: boolean;
-  }) {
-    console.log('store:', settings);
+  async store(settings: { useBiometrics: boolean; usePasscode: boolean; useSecureStorageMode: boolean }) {
     if (settings.useBiometrics !== undefined) {
       this.storage.set(this.keys.biometrics, settings.useBiometrics);
     }

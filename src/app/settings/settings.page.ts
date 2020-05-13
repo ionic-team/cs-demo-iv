@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { AuthMode } from '@ionic-enterprise/identity-vault';
+import { EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AuthenticationService } from '../services/authentication';
 import { IdentityService } from '../services/identity';
@@ -20,19 +22,32 @@ export class SettingsPage implements OnInit {
   constructor(
     private authentication: AuthenticationService,
     private identity: IdentityService,
-    private navController: NavController,
+    private toastController: ToastController,
     private settings: SettingsService
   ) {}
 
   async ngOnInit() {
     await this.identity.ready();
     await this.setAuthModeFlags();
-    const type = await this.identity.getBiometricType();
-    this.biometricType = this.translateBiometricType(type);
+    this.biometricType = await this.identity.supportedBiometricTypes();
   }
 
   logout() {
-    this.authentication.logout().subscribe(() => this.navController.navigateRoot('/login'));
+    this.authentication
+      .logout()
+      .pipe(
+        catchError(async err => {
+          const toast = await this.toastController.create({
+            message: 'Logout Failed! Please try again.',
+            color: 'danger',
+            duration: 1500,
+            position: 'top'
+          });
+          toast.present();
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   async authModeChanged() {
@@ -64,15 +79,5 @@ export class SettingsPage implements OnInit {
       usePasscode: this.usePasscode,
       useSecureStorageMode: this.useSecureStorageMode
     });
-  }
-  private translateBiometricType(type: string): string {
-    switch (type) {
-      case 'touchID':
-        return 'TouchID';
-      case 'faceID':
-        return 'FaceID';
-    }
-
-    return type;
   }
 }

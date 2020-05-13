@@ -1,12 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Platform } from '@ionic/angular';
+import { NavController, Platform } from '@ionic/angular';
 
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 
 import { AppComponent } from './app.component';
 import { createIdentityServiceMock, IdentityService } from './services/identity';
-import { createPlatformMock } from '../../test/mocks';
+import { createPlatformMock, createNavControllerMock } from '../../test/mocks';
 
 describe('AppComponent', () => {
   let originalSplashScreen;
@@ -22,6 +22,7 @@ describe('AppComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         { provide: IdentityService, useFactory: createIdentityServiceMock },
+        { provide: NavController, useFactory: createNavControllerMock },
         { provide: Platform, useFactory: createPlatformMock }
       ]
     }).compileComponents();

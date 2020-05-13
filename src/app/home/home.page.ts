@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 import { AuthenticationService } from '../services/authentication';
 import { TeaCategory } from '../models/tea-category';
 import { TeaCategoriesService } from '../services/tea-categories';
-import { Subscription } from 'rxjs';
+import { EMPTY, Subscription } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -17,14 +18,12 @@ export class HomePage implements OnDestroy, OnInit {
 
   constructor(
     private authentication: AuthenticationService,
-    private navController: NavController,
+    private toastController: ToastController,
     private teaCategories: TeaCategoriesService
   ) {}
 
   ngOnInit() {
-    this.subscription = this.teaCategories.changed.subscribe(() =>
-      this.getData()
-    );
+    this.subscription = this.teaCategories.changed.subscribe(() => this.getData());
   }
 
   ionViewDidEnter() {
@@ -40,11 +39,19 @@ export class HomePage implements OnDestroy, OnInit {
   logout() {
     this.authentication
       .logout()
-      .subscribe(() => this.navController.navigateRoot('/login'));
-  }
-
-  editCategory(id: number) {
-    this.navController.navigateForward(['edit-tea-category', id]);
+      .pipe(
+        catchError(async err => {
+          const toast = await this.toastController.create({
+            message: 'Logout Failed! Please try again.',
+            color: 'danger',
+            duration: 1500,
+            position: 'top'
+          });
+          toast.present();
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 
   private getData() {

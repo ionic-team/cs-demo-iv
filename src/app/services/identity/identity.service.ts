@@ -27,8 +27,11 @@ import { SettingsService } from '../settings/settings.service';
 })
 export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
   private user: User;
+  private _changed: Subject<DefaultSession>;
 
-  changed: Subject<User>;
+  get changed() {
+    return this._changed.asObservable();
+  }
 
   constructor(
     private browserAuthPlugin: BrowserAuthPlugin,
@@ -50,12 +53,12 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       allowSystemPinFallback: true,
       shouldClearVaultAfterTooManyFailedAttempts: false
     });
-    this.changed = new Subject();
+    this._changed = new Subject();
   }
 
   get(): Observable<User> {
     if (!this.user) {
-      return this.http.get<User>(`${environment.dataService}/users/current`).pipe(tap((u) => (this.user = u)));
+      return this.http.get<User>(`${environment.dataService}/users/current`).pipe(tap(u => (this.user = u)));
     } else {
       return of(this.user);
     }
@@ -73,8 +76,9 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       : (await this.settings.useSecureStorageMode())
       ? AuthMode.SecureStorage
       : AuthMode.InMemoryOnly;
+    const session: DefaultSession = { username: user.email, token: token };
     await this.login({ username: user.email, token: token }, mode);
-    this.changed.next(this.user);
+    this._changed.next(session);
   }
 
   private async useBiometrics(): Promise<boolean> {
@@ -85,7 +89,7 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
   async remove(): Promise<void> {
     await this.logout();
     this.user = undefined;
-    this.changed.next(this.user);
+    this._changed.next();
   }
 
   async getToken(): Promise<string> {
@@ -109,9 +113,11 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
   }
 
   onSessionRestored(session: DefaultSession) {
-    console.log('Session Restored: ', session);
+    this._changed.next(session);
   }
 
+  // In a real app, you don't want to log a lot of this. These events are just handled
+  // here to demonstrate when they are called.
   onSetupError(error: VaultError): void {
     console.error('Get error during setup', error);
   }
@@ -143,6 +149,7 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
 
   onVaultLocked() {
     console.log('Vault Locked');
+    this._changed.next();
     this.router.navigate(['login']);
   }
 
@@ -151,5 +158,25 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       return super.getPlugin();
     }
     return this.browserAuthPlugin;
+  }
+
+  async supportedBiometricTypes(): Promise<string> {
+    let result = '';
+    const types = await this.getAvailableHardware();
+    if (types) {
+      types.forEach(t => (result += `${result ? ', ' : ''}${this.translateBiometricType(t)}`));
+    }
+    return result;
+  }
+
+  private translateBiometricType(type: string): string {
+    switch (type) {
+      case 'fingerprint':
+        return 'Finger Print';
+      case 'face':
+        return 'Face Match';
+      case 'iris':
+        return 'Iris Scan';
+    }
   }
 }

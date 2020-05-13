@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, NavController } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { AuthMode } from '@ionic-enterprise/identity-vault';
 
 import { of } from 'rxjs';
@@ -9,12 +9,10 @@ import { of } from 'rxjs';
 import { AuthenticationService, createAuthenticationServiceMock } from '../services/authentication';
 import { IdentityService, createIdentityServiceMock } from '../services/identity';
 import { LoginPage } from './login.page';
-import { createNavControllerMock } from '../../../test/mocks';
 
 describe('LoginPage', () => {
   let authentication;
   let identity;
-  let navController;
 
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
@@ -22,16 +20,14 @@ describe('LoginPage', () => {
   beforeEach(async(() => {
     authentication = createAuthenticationServiceMock();
     identity = createIdentityServiceMock();
-    navController = createNavControllerMock();
     TestBed.configureTestingModule({
       declarations: [LoginPage],
       imports: [FormsModule, IonicModule],
       providers: [
         { provide: AuthenticationService, useValue: authentication },
-        { provide: IdentityService, useValue: identity },
-        { provide: NavController, useValue: navController },
+        { provide: IdentityService, useValue: identity }
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -57,17 +53,17 @@ describe('LoginPage', () => {
           identity.hasStoredSession.and.returnValue(Promise.resolve(true));
         });
 
-        it('gets the biometric type', fakeAsync(() => {
+        it('gets the hardware supported biometric types', fakeAsync(() => {
           identity.isBiometricsAvailable.and.returnValue(Promise.resolve(true));
-          identity.getBiometricType.and.returnValue(Promise.resolve('blood'));
+          identity.supportedBiometricTypes.and.returnValue(Promise.resolve('Blood, First Born Child'));
           component.ionViewWillEnter();
           tick();
-          expect(component.loginType).toEqual('blood');
+          expect(component.loginType).toEqual('Blood, First Born Child');
         }));
 
-        it('does not get the biometric type if biometrics is not available', fakeAsync(() => {
+        it('does not get the hardware supported biometric types if biometrics is not available', fakeAsync(() => {
           identity.isBiometricsAvailable.and.returnValue(Promise.resolve(false));
-          identity.getBiometricType.and.returnValue(Promise.resolve('blood'));
+          identity.supportedBiometricTypes.and.returnValue(Promise.resolve('Blood, First Born Child'));
           component.ionViewWillEnter();
           tick();
           expect(component.loginType).toEqual('');
@@ -101,30 +97,9 @@ describe('LoginPage', () => {
         identity.hasStoredSession.and.returnValue(Promise.resolve(true));
       });
 
-      describe('when the token is blank', () => {
-        it('does not navigate', async () => {
-          await component.unlockClicked();
-          expect(navController.navigateRoot).not.toHaveBeenCalled();
-        });
-      });
-
-      describe('when the token is non-blank', () => {
-        beforeEach(() => {
-          identity.restoreSession.and.returnValue(Promise.resolve({ token: 'I am a stored token' }));
-        });
-
-        it('navigates home', async () => {
-          await component.unlockClicked();
-          expect(navController.navigateRoot).toHaveBeenCalledTimes(1);
-          expect(navController.navigateRoot).toHaveBeenCalledWith('/tabs/home');
-        });
-      });
-    });
-
-    describe('when there is no stored session', () => {
-      it('does not navigate', async () => {
+      it('restores the session', async () => {
         await component.unlockClicked();
-        expect(navController.navigateRoot).not.toHaveBeenCalled();
+        expect(identity.restoreSession).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -160,12 +135,6 @@ describe('LoginPage', () => {
         component.signInClicked();
         expect(component.errorMessage).toBeFalsy();
       });
-
-      it('navigates to the main page', () => {
-        component.signInClicked();
-        expect(navController.navigateRoot).toHaveBeenCalledTimes(1);
-        expect(navController.navigateRoot).toHaveBeenCalledWith('/tabs/home');
-      });
     });
 
     describe('on failure', () => {
@@ -184,11 +153,6 @@ describe('LoginPage', () => {
       it('displays an error message', () => {
         component.signInClicked();
         expect(component.errorMessage).toEqual('Invalid e-mail address or password');
-      });
-
-      it('does not navigate', () => {
-        component.signInClicked();
-        expect(navController.navigateRoot).not.toHaveBeenCalled();
       });
     });
   });

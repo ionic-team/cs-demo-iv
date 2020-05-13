@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 import { AuthenticationService } from '../services/authentication';
 import { IdentityService } from '../services/identity';
 import { User } from '../models/user';
+import { catchError } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { AuthMode } from '@ionic-enterprise/identity-vault';
 
 @Component({
   selector: 'app-about',
@@ -11,20 +14,36 @@ import { User } from '../models/user';
 })
 export class AboutPage {
   user: User;
+  authMode: string;
+  supportedHardware: string;
 
   constructor(
     private authentication: AuthenticationService,
     private identity: IdentityService,
-    private navController: NavController
+    private toastController: ToastController
   ) {}
 
-  ionViewDidEnter() {
+  async ionViewDidEnter() {
     this.identity.get().subscribe(u => (this.user = u));
+    this.authMode = AuthMode[await this.identity.getAuthMode()];
+    this.supportedHardware = await this.identity.supportedBiometricTypes();
   }
 
   logout() {
     this.authentication
       .logout()
-      .subscribe(() => this.navController.navigateRoot('/login'));
+      .pipe(
+        catchError(async err => {
+          const toast = await this.toastController.create({
+            message: 'Logout Failed! Please try again.',
+            color: 'danger',
+            duration: 1500,
+            position: 'top'
+          });
+          toast.present();
+          return EMPTY;
+        })
+      )
+      .subscribe();
   }
 }

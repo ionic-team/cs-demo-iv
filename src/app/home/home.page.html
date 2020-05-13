@@ -12,7 +12,7 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-item *ngFor="let category of categories" (click)="editCategory(category.id)">
+    <ion-item *ngFor="let category of categories" [routerLink]="['edit-tea-category', category.id]">
       <ion-label>
         <div class="title">{{category.name}}</div>
         <div>{{category.description}}</div>

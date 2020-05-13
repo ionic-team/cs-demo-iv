@@ -18,11 +18,7 @@ export class LoginPage {
   loginType: string;
   displayVaultLogin: boolean;
 
-  constructor(
-    private authentication: AuthenticationService,
-    private identity: IdentityService,
-    private navController: NavController
-  ) {}
+  constructor(private authentication: AuthenticationService, private identity: IdentityService) {}
 
   ionViewWillEnter() {
     try {
@@ -36,11 +32,7 @@ export class LoginPage {
     const hasSession = await this.identity.hasStoredSession();
 
     if (hasSession) {
-      const session = await this.tryRestoreSession();
-      if (session && session.token) {
-        this.goToApp();
-        return;
-      }
+      await this.tryRestoreSession();
     }
   }
 
@@ -51,7 +43,6 @@ export class LoginPage {
         if (success) {
           this.email = '';
           this.errorMessage = '';
-          this.navController.navigateRoot('/tabs/home');
         } else {
           this.errorMessage = 'Invalid e-mail address or password';
         }
@@ -62,10 +53,6 @@ export class LoginPage {
         console.error(err);
       }
     );
-  }
-
-  private goToApp() {
-    this.navController.navigateRoot('/tabs/home');
   }
 
   private async tryRestoreSession(): Promise<DefaultSession> {
@@ -97,7 +84,7 @@ export class LoginPage {
       const authMode = await this.identity.getAuthMode();
       switch (authMode) {
         case AuthMode.BiometricAndPasscode:
-          this.loginType = await this.translateBiometricType();
+          this.loginType = await this.identity.supportedBiometricTypes();
           this.loginType += ' (Passcode Fallback)';
           break;
         case AuthMode.BiometricOnly:
@@ -106,29 +93,14 @@ export class LoginPage {
           const bioAvailable = await this.identity.isBiometricsAvailable();
           // Making this conditional on Bio being locked out only makes sense if we are using
           // allowSystemPinFallback like we are in this demo
-          this.loginType = bioAvailable || bioLockedOut ? await this.translateBiometricType() : '';
+          this.loginType = bioAvailable || bioLockedOut ? await this.identity.supportedBiometricTypes() : '';
           break;
         case AuthMode.PasscodeOnly:
           this.loginType = 'Passcode';
-          break;
-        case AuthMode.SecureStorage:
-          this.loginType = 'Secure Storage';
           break;
       }
     } else {
       this.loginType = '';
     }
-  }
-
-  private async translateBiometricType(): Promise<string> {
-    const type = await this.identity.getBiometricType();
-    switch (type) {
-      case 'touchID':
-        return 'TouchID';
-      case 'faceID':
-        return 'FaceID';
-    }
-
-    return type;
   }
 }
