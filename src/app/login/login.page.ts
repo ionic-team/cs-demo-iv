@@ -59,10 +59,12 @@ export class LoginPage {
     try {
       return await this.identity.restoreSession();
     } catch (error) {
-      alert('Unable to unlock the token');
-      this.setUnlockType();
       if (this.notFailedOrCancelled(error)) {
         throw error;
+      }
+      if (error.code === VaultErrorCodes.AuthFailed) {
+        alert('Unable to unlock the token');
+        this.setUnlockType();
       }
     }
   }
