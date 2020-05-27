@@ -76,6 +76,7 @@ export class BrowserAuthService implements IdentityVault {
     return this.storage.keys();
   }
 
+  // tslint:disable-next-line
   async getBiometricType(): Promise<BiometricType> {
     return 'none';
   }

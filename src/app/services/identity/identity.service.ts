@@ -144,11 +144,12 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
     });
     dlg.present();
     const { data, role } = await dlg.onDidDismiss();
-    if (role === 'cancel')
+    if (role === 'cancel') {
       throw {
         code: VaultErrorCodes.UserCanceledInteraction,
         message: 'User has canceled supplying the application passcode'
       };
+    }
     return Promise.resolve(data || '');
   }
 
