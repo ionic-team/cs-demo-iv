@@ -17,10 +17,10 @@ describe('PinDialogComponent', () => {
       providers: [
         {
           provide: ModalController,
-          useFactory: () => createOverlayControllerMock('Modal')
-        }
+          useFactory: () => createOverlayControllerMock('Modal'),
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 

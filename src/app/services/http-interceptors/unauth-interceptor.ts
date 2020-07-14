@@ -4,7 +4,7 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpHandler,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ export class UnauthInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       tap(
@@ -25,8 +25,8 @@ export class UnauthInterceptor implements HttpInterceptor {
           if (err instanceof HttpErrorResponse && err.status === 401) {
             this.navController.navigateRoot('/login');
           }
-        }
-      )
+        },
+      ),
     );
   }
 }

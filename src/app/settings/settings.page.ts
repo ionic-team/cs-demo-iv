@@ -11,7 +11,7 @@ import { SettingsService } from '../services/settings/settings.service';
 @Component({
   selector: 'app-settings',
   templateUrl: 'settings.page.html',
-  styleUrls: ['settings.page.scss']
+  styleUrls: ['settings.page.scss'],
 })
 export class SettingsPage implements OnInit {
   useBiometrics: boolean;
@@ -23,7 +23,7 @@ export class SettingsPage implements OnInit {
     private authentication: AuthenticationService,
     private identity: IdentityService,
     private toastController: ToastController,
-    private settings: SettingsService
+    private settings: SettingsService,
   ) {}
 
   async ngOnInit() {
@@ -41,11 +41,11 @@ export class SettingsPage implements OnInit {
             message: 'Logout Failed! Please try again.',
             color: 'danger',
             duration: 1500,
-            position: 'top'
+            position: 'top',
           });
           toast.present();
           return EMPTY;
-        })
+        }),
       )
       .subscribe();
   }
@@ -77,7 +77,7 @@ export class SettingsPage implements OnInit {
     this.settings.store({
       useBiometrics: this.useBiometrics,
       usePasscode: this.usePasscode,
-      useSecureStorageMode: this.useSecureStorageMode
+      useSecureStorageMode: this.useSecureStorageMode,
     });
   }
 }

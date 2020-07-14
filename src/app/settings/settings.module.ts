@@ -10,8 +10,8 @@ import { SettingsPage } from './settings.page';
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: SettingsPage }])
+    RouterModule.forChild([{ path: '', component: SettingsPage }]),
   ],
-  declarations: [SettingsPage]
+  declarations: [SettingsPage],
 })
 export class SettingsPageModule {}

@@ -2,7 +2,7 @@ import { of, Subject } from 'rxjs';
 
 export function createVaultMock() {
   return jasmine.createSpyObj('IdentityVault', {
-    isLockedOutOfBiometrics: Promise.resolve(false)
+    isLockedOutOfBiometrics: Promise.resolve(false),
   });
 }
 
@@ -23,7 +23,7 @@ export function createIdentityServiceMock() {
     remove: Promise.resolve(),
     restoreSession: Promise.resolve(),
     set: Promise.resolve(),
-    supportedBiometricTypes: Promise.resolve('')
+    supportedBiometricTypes: Promise.resolve(''),
   });
 
   identity.changed = new Subject();

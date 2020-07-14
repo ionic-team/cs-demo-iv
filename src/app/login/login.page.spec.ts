@@ -1,13 +1,25 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AuthMode } from '@ionic-enterprise/identity-vault';
 
 import { of } from 'rxjs';
 
-import { AuthenticationService, createAuthenticationServiceMock } from '../services/authentication';
-import { IdentityService, createIdentityServiceMock } from '../services/identity';
+import {
+  AuthenticationService,
+  createAuthenticationServiceMock,
+} from '../services/authentication';
+import {
+  IdentityService,
+  createIdentityServiceMock,
+} from '../services/identity';
 import { LoginPage } from './login.page';
 
 describe('LoginPage', () => {
@@ -25,9 +37,9 @@ describe('LoginPage', () => {
       imports: [FormsModule, IonicModule],
       providers: [
         { provide: AuthenticationService, useValue: authentication },
-        { provide: IdentityService, useValue: identity }
+        { provide: IdentityService, useValue: identity },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -45,7 +57,9 @@ describe('LoginPage', () => {
     describe('with biometrics enabled', () => {
       beforeEach(() => {
         identity.isBiometricsEnabled.and.returnValue(Promise.resolve(true));
-        identity.getAuthMode.and.returnValue(Promise.resolve(AuthMode.BiometricOnly));
+        identity.getAuthMode.and.returnValue(
+          Promise.resolve(AuthMode.BiometricOnly),
+        );
       });
 
       describe('with a stored token', () => {
@@ -55,15 +69,21 @@ describe('LoginPage', () => {
 
         it('gets the hardware supported biometric types', fakeAsync(() => {
           identity.isBiometricsAvailable.and.returnValue(Promise.resolve(true));
-          identity.supportedBiometricTypes.and.returnValue(Promise.resolve('Blood, First Born Child'));
+          identity.supportedBiometricTypes.and.returnValue(
+            Promise.resolve('Blood, First Born Child'),
+          );
           component.ionViewWillEnter();
           tick();
           expect(component.loginType).toEqual('Blood, First Born Child');
         }));
 
         it('does not get the hardware supported biometric types if biometrics is not available', fakeAsync(() => {
-          identity.isBiometricsAvailable.and.returnValue(Promise.resolve(false));
-          identity.supportedBiometricTypes.and.returnValue(Promise.resolve('Blood, First Born Child'));
+          identity.isBiometricsAvailable.and.returnValue(
+            Promise.resolve(false),
+          );
+          identity.supportedBiometricTypes.and.returnValue(
+            Promise.resolve('Blood, First Born Child'),
+          );
           component.ionViewWillEnter();
           tick();
           expect(component.loginType).toEqual('');
@@ -114,7 +134,10 @@ describe('LoginPage', () => {
       component.email = 'jimmy@test.org';
       component.password = 'I Crack the Corn';
       component.signInClicked();
-      expect(authentication.login).toHaveBeenCalledWith('jimmy@test.org', 'I Crack the Corn');
+      expect(authentication.login).toHaveBeenCalledWith(
+        'jimmy@test.org',
+        'I Crack the Corn',
+      );
     });
 
     describe('on success', () => {
@@ -152,7 +175,9 @@ describe('LoginPage', () => {
 
       it('displays an error message', () => {
         component.signInClicked();
-        expect(component.errorMessage).toEqual('Invalid e-mail address or password');
+        expect(component.errorMessage).toEqual(
+          'Invalid e-mail address or password',
+        );
       });
     });
   });

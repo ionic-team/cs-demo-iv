@@ -21,13 +21,13 @@ import { PinDialogComponentModule } from './pin-dialog/pin-dialog.module';
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     PinDialogComponentModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: UnauthInterceptor, multi: true },
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnDestroy, OnInit {
   private subscription: Subscription;
@@ -19,11 +19,13 @@ export class HomePage implements OnDestroy, OnInit {
   constructor(
     private authentication: AuthenticationService,
     private toastController: ToastController,
-    private teaCategories: TeaCategoriesService
+    private teaCategories: TeaCategoriesService,
   ) {}
 
   ngOnInit() {
-    this.subscription = this.teaCategories.changed.subscribe(() => this.getData());
+    this.subscription = this.teaCategories.changed.subscribe(() =>
+      this.getData(),
+    );
   }
 
   ionViewDidEnter() {
@@ -45,11 +47,11 @@ export class HomePage implements OnDestroy, OnInit {
             message: 'Logout Failed! Please try again.',
             color: 'danger',
             duration: 1500,
-            position: 'top'
+            position: 'top',
           });
           toast.present();
           return EMPTY;
-        })
+        }),
       )
       .subscribe();
   }

@@ -8,12 +8,18 @@ import { IdentityService } from './services/identity';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: 'app.component.html',
 })
 export class AppComponent {
-  constructor(private identity: IdentityService, private navController: NavController, private platform: Platform) {
+  constructor(
+    private identity: IdentityService,
+    private navController: NavController,
+    private platform: Platform,
+  ) {
     this.initializeApp();
-    this.identity.changed.subscribe(session => this.handleSessionChange(session));
+    this.identity.changed.subscribe(session =>
+      this.handleSessionChange(session),
+    );
   }
 
   async initializeApp() {

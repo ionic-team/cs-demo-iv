@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
   private keys = {
     biometrics: 'useBiometrics',
     passcode: 'usePasscode',
-    secureStorageMode: 'useSecureStorageMode'
+    secureStorageMode: 'useSecureStorageMode',
   };
 
   constructor(private storage: Storage) {}
@@ -28,7 +28,11 @@ export class SettingsService {
     return v;
   }
 
-  async store(settings: { useBiometrics: boolean; usePasscode: boolean; useSecureStorageMode: boolean }) {
+  async store(settings: {
+    useBiometrics: boolean;
+    usePasscode: boolean;
+    useSecureStorageMode: boolean;
+  }) {
     if (settings.useBiometrics !== undefined) {
       this.storage.set(this.keys.biometrics, settings.useBiometrics);
     }
@@ -36,7 +40,10 @@ export class SettingsService {
       this.storage.set(this.keys.passcode, settings.usePasscode);
     }
     if (settings.useSecureStorageMode !== undefined) {
-      this.storage.set(this.keys.secureStorageMode, settings.useSecureStorageMode);
+      this.storage.set(
+        this.keys.secureStorageMode,
+        settings.useSecureStorageMode,
+      );
     }
   }
 }

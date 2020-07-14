@@ -5,7 +5,10 @@ import { NavController, Platform } from '@ionic/angular';
 import { Plugins, StatusBarStyle } from '@capacitor/core';
 
 import { AppComponent } from './app.component';
-import { createIdentityServiceMock, IdentityService } from './services/identity';
+import {
+  createIdentityServiceMock,
+  IdentityService,
+} from './services/identity';
 import { createPlatformMock, createNavControllerMock } from '../../test/mocks';
 
 describe('AppComponent', () => {
@@ -15,7 +18,10 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     originalSplashScreen = Plugins.SplashScreen;
     originalStatusBar = Plugins.StatusBar;
-    Plugins.StatusBar = jasmine.createSpyObj('StatusBar', ['setStyle', 'setBackgroundColor']);
+    Plugins.StatusBar = jasmine.createSpyObj('StatusBar', [
+      'setStyle',
+      'setBackgroundColor',
+    ]);
     Plugins.SplashScreen = jasmine.createSpyObj('SplashScreen', ['hide']);
     TestBed.configureTestingModule({
       declarations: [AppComponent],
@@ -23,8 +29,8 @@ describe('AppComponent', () => {
       providers: [
         { provide: IdentityService, useFactory: createIdentityServiceMock },
         { provide: NavController, useFactory: createNavControllerMock },
-        { provide: Platform, useFactory: createPlatformMock }
-      ]
+        { provide: Platform, useFactory: createPlatformMock },
+      ],
     }).compileComponents();
   }));
 
@@ -79,7 +85,7 @@ describe('AppComponent', () => {
         tick();
         expect(Plugins.StatusBar.setStyle).toHaveBeenCalledTimes(1);
         expect(Plugins.StatusBar.setStyle).toHaveBeenCalledWith({
-          style: StatusBarStyle.Light
+          style: StatusBarStyle.Light,
         });
       }));
 
@@ -94,7 +100,9 @@ describe('AppComponent', () => {
         TestBed.createComponent(AppComponent);
         tick();
         expect(Plugins.StatusBar.setBackgroundColor).toHaveBeenCalledTimes(1);
-        expect(Plugins.StatusBar.setBackgroundColor).toHaveBeenCalledWith({ color: '#3171e0' });
+        expect(Plugins.StatusBar.setBackgroundColor).toHaveBeenCalledWith({
+          color: '#3171e0',
+        });
       }));
     });
   });

@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 import { TeaCategory } from '../../models/tea-category';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeaCategoriesService {
   changed: Subject<void>;
@@ -18,13 +18,13 @@ export class TeaCategoriesService {
 
   getAll(): Observable<Array<TeaCategory>> {
     return this.http.get<Array<TeaCategory>>(
-      `${environment.dataService}/tea-categories`
+      `${environment.dataService}/tea-categories`,
     );
   }
 
   get(id: number): Observable<TeaCategory> {
     return this.http.get<TeaCategory>(
-      `${environment.dataService}/tea-categories/${id}`
+      `${environment.dataService}/tea-categories/${id}`,
     );
   }
 
@@ -32,7 +32,7 @@ export class TeaCategoriesService {
     return this.http
       .post<TeaCategory>(
         `${environment.dataService}/tea-categories/${teaCategory.id}`,
-        teaCategory
+        teaCategory,
       )
       .pipe(tap(() => this.changed.next()));
   }

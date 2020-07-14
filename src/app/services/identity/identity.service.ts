@@ -13,7 +13,7 @@ import {
   DefaultSession,
   VaultConfig,
   VaultError,
-  VaultErrorCodes
+  VaultErrorCodes,
 } from '@ionic-enterprise/identity-vault';
 
 import { environment } from '../../../environments/environment';
@@ -23,7 +23,7 @@ import { PinDialogComponent } from '../../pin-dialog/pin-dialog.component';
 import { SettingsService } from '../settings/settings.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
   private user: User;
@@ -39,7 +39,7 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
     private modalController: ModalController,
     private router: Router,
     private plt: Platform,
-    private settings: SettingsService
+    private settings: SettingsService,
   ) {
     super(plt, {
       androidPromptTitle: 'Identity Vault Demo',
@@ -51,14 +51,16 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       lockAfter: 5000,
       hideScreenOnBackground: true,
       allowSystemPinFallback: true,
-      shouldClearVaultAfterTooManyFailedAttempts: false
+      shouldClearVaultAfterTooManyFailedAttempts: false,
     });
     this._changed = new Subject();
   }
 
   get(): Observable<User> {
     if (!this.user) {
-      return this.http.get<User>(`${environment.dataService}/users/current`).pipe(tap(u => (this.user = u)));
+      return this.http
+        .get<User>(`${environment.dataService}/users/current`)
+        .pipe(tap(u => (this.user = u)));
     } else {
       return of(this.user);
     }
@@ -82,7 +84,10 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
   }
 
   private async useBiometrics(): Promise<boolean> {
-    const use = await Promise.all([this.settings.useBiometrics(), this.isBiometricsAvailable()]);
+    const use = await Promise.all([
+      this.settings.useBiometrics(),
+      this.isBiometricsAvailable(),
+    ]);
     return use[0] && use[1];
   }
 
@@ -139,15 +144,15 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
       backdropDismiss: false,
       component: PinDialogComponent,
       componentProps: {
-        setPasscodeMode: isPasscodeSetRequest
-      }
+        setPasscodeMode: isPasscodeSetRequest,
+      },
     });
     dlg.present();
     const { data, role } = await dlg.onDidDismiss();
     if (role === 'cancel') {
       throw {
         code: VaultErrorCodes.UserCanceledInteraction,
-        message: 'User has canceled supplying the application passcode'
+        message: 'User has canceled supplying the application passcode',
       };
     }
     return Promise.resolve(data || '');
@@ -170,7 +175,10 @@ export class IdentityService extends IonicIdentityVaultUser<DefaultSession> {
     let result = '';
     const types = await this.getAvailableHardware();
     if (types) {
-      types.forEach(t => (result += `${result ? ', ' : ''}${this.translateBiometricType(t)}`));
+      types.forEach(
+        t =>
+          (result += `${result ? ', ' : ''}${this.translateBiometricType(t)}`),
+      );
     }
     return result;
   }

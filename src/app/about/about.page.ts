@@ -10,7 +10,7 @@ import { AuthMode } from '@ionic-enterprise/identity-vault';
 @Component({
   selector: 'app-about',
   templateUrl: 'about.page.html',
-  styleUrls: ['about.page.scss']
+  styleUrls: ['about.page.scss'],
 })
 export class AboutPage {
   user: User;
@@ -20,7 +20,7 @@ export class AboutPage {
   constructor(
     private authentication: AuthenticationService,
     private identity: IdentityService,
-    private toastController: ToastController
+    private toastController: ToastController,
   ) {}
 
   async ionViewDidEnter() {
@@ -38,11 +38,11 @@ export class AboutPage {
             message: 'Logout Failed! Please try again.',
             color: 'danger',
             duration: 1500,
-            position: 'top'
+            position: 'top',
           });
           toast.present();
           return EMPTY;
-        })
+        }),
       )
       .subscribe();
   }

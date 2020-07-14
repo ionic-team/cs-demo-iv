@@ -8,7 +8,7 @@ import { IdentityService } from '../identity';
 import { User } from '../../models/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   constructor(private http: HttpClient, private identity: IdentityService) {}
@@ -19,8 +19,8 @@ export class AuthenticationService {
         `${environment.dataService}/login`,
         {
           username: email,
-          password: password
-        }
+          password: password,
+        },
       )
       .pipe(flatMap(r => from(this.unpackResponse(r))));
   }

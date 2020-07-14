@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 
-import { createActivatedRouteMock, createNavControllerMock } from '../../../test/mocks';
+import {
+  createActivatedRouteMock,
+  createNavControllerMock,
+} from '../../../test/mocks';
 import { EditTeaCategoryPage } from './edit-tea-category.page';
 import {
   TeaCategoriesService,
-  createTeaCategoriesServiceMock
+  createTeaCategoriesServiceMock,
 } from '../services/tea-categories';
 import { of } from 'rxjs';
 
@@ -25,10 +28,10 @@ describe('EditTeaCategoryPage', () => {
         { provide: NavController, useFactory: createNavControllerMock },
         {
           provide: TeaCategoriesService,
-          useFactory: createTeaCategoriesServiceMock
-        }
+          useFactory: createTeaCategoriesServiceMock,
+        },
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
   }));
 
@@ -66,8 +69,8 @@ describe('EditTeaCategoryPage', () => {
         of({
           id: 42,
           name: 'Doug',
-          description: 'The long dark teamtime of the soul'
-        })
+          description: 'The long dark teamtime of the soul',
+        }),
       );
       fixture.detectChanges();
       expect(component.name).toEqual('Doug');
@@ -81,11 +84,13 @@ describe('EditTeaCategoryPage', () => {
         of({
           id: 42,
           name: 'Doug',
-          description: 'The long dark teamtime of the soul'
-        })
+          description: 'The long dark teamtime of the soul',
+        }),
       );
       fixture.detectChanges();
-      expect(component.description).toEqual('The long dark teamtime of the soul');
+      expect(component.description).toEqual(
+        'The long dark teamtime of the soul',
+      );
     });
   });
 
@@ -96,8 +101,8 @@ describe('EditTeaCategoryPage', () => {
         of({
           id: 42,
           name: 'Doug',
-          description: 'The long dark teamtime of the soul'
-        })
+          description: 'The long dark teamtime of the soul',
+        }),
       );
       fixture.detectChanges();
     });
@@ -109,9 +114,9 @@ describe('EditTeaCategoryPage', () => {
       component.save();
       expect(cats.save).toHaveBeenCalledTimes(1);
       expect(cats.save).toHaveBeenCalledWith({
-          id: 42,
-          name: 'Anthony',
-          description: 'A clockwork orange pekoe'
+        id: 42,
+        name: 'Anthony',
+        description: 'A clockwork orange pekoe',
       });
     });
 

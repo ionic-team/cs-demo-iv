@@ -32,17 +32,24 @@
     </ion-item>
     <ion-item>
       <ion-label>Secure Storage Mode</ion-label>
-      <ion-toggle [(ngModel)]="useSecureStorageMode" (ionChange)="authModeChanged()"></ion-toggle>
+      <ion-toggle
+        [(ngModel)]="useSecureStorageMode"
+        (ionChange)="authModeChanged()"
+      ></ion-toggle>
     </ion-item>
     <ion-item>
       <ion-label>Lock</ion-label>
-      <ion-button (click)="lock()"><ion-icon name="lock-closed"></ion-icon></ion-button>
+      <ion-button (click)="lock()"
+        ><ion-icon name="lock-closed"></ion-icon
+      ></ion-button>
     </ion-item>
     <ion-item>
       <ion-label class="description">
-        <strong>Note:</strong> This app will allow the user to set Biometrics and an Application passcode at the same
-        time. This makes sense if not also using system PIN fallback, which this app is by default. It is just written
-        this way to show how both would work together if you build the application with that option set to false.
+        <strong>Note:</strong> This app will allow the user to set Biometrics
+        and an Application passcode at the same time. This makes sense if not
+        also using system PIN fallback, which this app is by default. It is just
+        written this way to show how both would work together if you build the
+        application with that option set to false.
       </ion-label>
     </ion-item>
   </ion-list>

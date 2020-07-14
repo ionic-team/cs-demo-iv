@@ -2,8 +2,14 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AboutPage } from './about.page';
-import { createAuthenticationServiceMock, AuthenticationService } from '../services/authentication';
-import { createIdentityServiceMock, IdentityService } from '../services/identity';
+import {
+  createAuthenticationServiceMock,
+  AuthenticationService,
+} from '../services/authentication';
+import {
+  createIdentityServiceMock,
+  IdentityService,
+} from '../services/identity';
 
 describe('AboutPage', () => {
   let component: AboutPage;
@@ -16,10 +22,10 @@ describe('AboutPage', () => {
       providers: [
         {
           provide: AuthenticationService,
-          useFactory: createAuthenticationServiceMock
+          useFactory: createAuthenticationServiceMock,
         },
-        { provide: IdentityService, useFactory: createIdentityServiceMock }
-      ]
+        { provide: IdentityService, useFactory: createIdentityServiceMock },
+      ],
     }).compileComponents();
   }));
 

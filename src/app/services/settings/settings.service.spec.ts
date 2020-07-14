@@ -7,8 +7,8 @@ import { createStorageMock } from '../../../../test/mocks';
 describe('SettingsService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      providers: [{ provide: Storage, useFactory: createStorageMock }]
-    })
+      providers: [{ provide: Storage, useFactory: createStorageMock }],
+    }),
   );
 
   it('should be created', () => {

@@ -42,6 +42,7 @@
     "@angular/language-service": "~9.1.7",
     "@capacitor/cli": "~2.1.0",
     "@ionic/angular-toolkit": "~2.2.0",
+    "@ionic/prettier-config": "^1.0.0",
     "@types/jasmine": "~3.5.10",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "~14.0.1",
@@ -65,5 +66,6 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged"
     }
-  }
+  },
+  "prettier": "@ionic/prettier-config"
 }

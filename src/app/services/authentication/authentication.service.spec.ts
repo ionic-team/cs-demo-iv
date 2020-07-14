@@ -1,7 +1,7 @@
 import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { AuthenticationService } from './authentication.service';
@@ -20,8 +20,8 @@ describe('AuthenticationService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         AuthenticationService,
-        { provide: IdentityService, useValue: identity }
-      ]
+        { provide: IdentityService, useValue: identity },
+      ],
     });
 
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -31,7 +31,7 @@ describe('AuthenticationService', () => {
     [AuthenticationService],
     (service: AuthenticationService) => {
       authentication = service;
-    }
+    },
   ));
 
   it('injects', () => {
@@ -44,7 +44,7 @@ describe('AuthenticationService', () => {
         .login('thank.you@forthefish.com', 'solongDude')
         .subscribe();
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/login`
+        `${environment.dataService}/login`,
       );
       expect(req.request.method).toEqual('POST');
       req.flush({});
@@ -56,11 +56,11 @@ describe('AuthenticationService', () => {
         .login('thank.you@forthefish.com', 'solongDude')
         .subscribe();
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/login`
+        `${environment.dataService}/login`,
       );
       expect(req.request.body).toEqual({
         username: 'thank.you@forthefish.com',
-        password: 'solongDude'
+        password: 'solongDude',
       });
       req.flush({});
       httpTestingController.verify();
@@ -76,8 +76,8 @@ describe('AuthenticationService', () => {
             id: 42,
             firstName: 'Douglas',
             lastName: 'Adams',
-            email: 'thank.you@forthefish.com'
-          }
+            email: 'thank.you@forthefish.com',
+          },
         };
       });
 
@@ -86,7 +86,7 @@ describe('AuthenticationService', () => {
           .login('thank.you@forthefish.com', 'solongDude')
           .subscribe(r => expect(r).toEqual(true));
         const req = httpTestingController.expectOne(
-          `${environment.dataService}/login`
+          `${environment.dataService}/login`,
         );
         req.flush(response);
         tick();
@@ -99,7 +99,7 @@ describe('AuthenticationService', () => {
           .login('thank.you@forthefish.com', 'solongDude')
           .subscribe();
         const req = httpTestingController.expectOne(
-          `${environment.dataService}/login`
+          `${environment.dataService}/login`,
         );
         req.flush(response);
         httpTestingController.verify();
@@ -109,9 +109,9 @@ describe('AuthenticationService', () => {
             id: 42,
             firstName: 'Douglas',
             lastName: 'Adams',
-            email: 'thank.you@forthefish.com'
+            email: 'thank.you@forthefish.com',
           },
-          '48499501093kf00399sg'
+          '48499501093kf00399sg',
         );
       });
     });
@@ -127,7 +127,7 @@ describe('AuthenticationService', () => {
           .login('thank.you@forthefish.com', 'solongDude')
           .subscribe(r => expect(r).toEqual(false));
         const req = httpTestingController.expectOne(
-          `${environment.dataService}/login`
+          `${environment.dataService}/login`,
         );
         req.flush(response);
         tick();
@@ -140,7 +140,7 @@ describe('AuthenticationService', () => {
           .login('thank.you@forthefish.com', 'solongDude')
           .subscribe();
         const req = httpTestingController.expectOne(
-          `${environment.dataService}/login`
+          `${environment.dataService}/login`,
         );
         req.flush(response);
         httpTestingController.verify();
@@ -154,7 +154,7 @@ describe('AuthenticationService', () => {
       let fired = false;
       authentication.logout().subscribe(() => (fired = true));
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/logout`
+        `${environment.dataService}/logout`,
       );
       req.flush({});
       httpTestingController.verify();
@@ -166,7 +166,7 @@ describe('AuthenticationService', () => {
     it('remove the identity', fakeAsync(() => {
       authentication.logout().subscribe();
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/logout`
+        `${environment.dataService}/logout`,
       );
       req.flush({});
       tick();

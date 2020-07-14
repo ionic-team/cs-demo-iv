@@ -9,6 +9,6 @@ import { PinDialogComponent } from './pin-dialog.component';
   declarations: [PinDialogComponent],
   exports: [PinDialogComponent],
   entryComponents: [PinDialogComponent],
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule],
 })
 export class PinDialogComponentModule {}

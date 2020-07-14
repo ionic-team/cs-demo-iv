@@ -3,12 +3,16 @@ import { NavController } from '@ionic/angular';
 
 import { AuthenticationService } from '../services/authentication';
 import { IdentityService } from '../services/identity';
-import { AuthMode, DefaultSession, VaultErrorCodes } from '@ionic-enterprise/identity-vault';
+import {
+  AuthMode,
+  DefaultSession,
+  VaultErrorCodes,
+} from '@ionic-enterprise/identity-vault';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss']
+  styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
   email: string;
@@ -18,7 +22,10 @@ export class LoginPage {
   loginType: string;
   displayVaultLogin: boolean;
 
-  constructor(private authentication: AuthenticationService, private identity: IdentityService) {}
+  constructor(
+    private authentication: AuthenticationService,
+    private identity: IdentityService,
+  ) {}
 
   ionViewWillEnter() {
     try {
@@ -51,7 +58,7 @@ export class LoginPage {
         this.password = '';
         this.errorMessage = 'Unknown login error';
         console.error(err);
-      }
+      },
     );
   }
 
@@ -70,7 +77,10 @@ export class LoginPage {
   }
 
   private notFailedOrCancelled(error: any) {
-    return error.code !== VaultErrorCodes.AuthFailed && error.code !== VaultErrorCodes.UserCanceledInteraction;
+    return (
+      error.code !== VaultErrorCodes.AuthFailed &&
+      error.code !== VaultErrorCodes.UserCanceledInteraction
+    );
   }
 
   private async setUnlockType(): Promise<void> {
@@ -95,7 +105,10 @@ export class LoginPage {
           const bioAvailable = await this.identity.isBiometricsAvailable();
           // Making this conditional on Bio being locked out only makes sense if we are using
           // allowSystemPinFallback like we are in this demo
-          this.loginType = bioAvailable || bioLockedOut ? await this.identity.supportedBiometricTypes() : '';
+          this.loginType =
+            bioAvailable || bioLockedOut
+              ? await this.identity.supportedBiometricTypes()
+              : '';
           break;
         case AuthMode.PasscodeOnly:
           this.loginType = 'Passcode';

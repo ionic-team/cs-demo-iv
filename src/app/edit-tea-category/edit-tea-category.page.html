@@ -12,7 +12,14 @@
     <ion-list>
       <ion-item>
         <ion-label position="floating">Name</ion-label>
-        <ion-input id="name-input" type="text" name="name" [(ngModel)]="name" #nameInput="ngModel" required></ion-input>
+        <ion-input
+          id="name-input"
+          type="text"
+          name="name"
+          [(ngModel)]="name"
+          #nameInput="ngModel"
+          required
+        ></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Description</ion-label>
@@ -31,7 +38,11 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button id="save-button" expand="full" [disabled]="!categoryEditorForm.form.valid" (click)="save()"
+    <ion-button
+      id="save-button"
+      expand="full"
+      [disabled]="!categoryEditorForm.form.valid"
+      (click)="save()"
       >Save</ion-button
     >
   </ion-toolbar>

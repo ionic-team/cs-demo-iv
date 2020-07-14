@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
-  IdentityVault, PluginOptions,
+  IdentityVault,
+  PluginOptions,
   IonicNativeAuthPlugin,
 } from '@ionic-enterprise/identity-vault';
 import { BrowserAuthService } from './browser-auth.service';

@@ -25,28 +25,57 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngFor="let n of [1, 2, 3]">
-        <ion-button expand="block" (click)="append(n)" [disabled]="disableInput">{{ n }}</ion-button>
+        <ion-button
+          expand="block"
+          (click)="append(n)"
+          [disabled]="disableInput"
+          >{{ n }}</ion-button
+        >
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col *ngFor="let n of [4, 5, 6]">
-        <ion-button expand="block" (click)="append(n)" [disabled]="disableInput">{{ n }}</ion-button>
+        <ion-button
+          expand="block"
+          (click)="append(n)"
+          [disabled]="disableInput"
+          >{{ n }}</ion-button
+        >
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col *ngFor="let n of [7, 8, 9]">
-        <ion-button expand="block" (click)="append(n)" [disabled]="disableInput">{{ n }}</ion-button>
+        <ion-button
+          expand="block"
+          (click)="append(n)"
+          [disabled]="disableInput"
+          >{{ n }}</ion-button
+        >
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button color="tertiary" expand="block" (click)="delete()" [disabled]="disableDelete">Delete</ion-button>
+        <ion-button
+          color="tertiary"
+          expand="block"
+          (click)="delete()"
+          [disabled]="disableDelete"
+          >Delete</ion-button
+        >
       </ion-col>
       <ion-col>
-        <ion-button expand="block" (click)="append(0)" [disabled]="disableInput">0</ion-button>
+        <ion-button expand="block" (click)="append(0)" [disabled]="disableInput"
+          >0</ion-button
+        >
       </ion-col>
       <ion-col>
-        <ion-button color="secondary" expand="block" (click)="enter()" [disabled]="disableEnter">Enter</ion-button>
+        <ion-button
+          color="secondary"
+          expand="block"
+          (click)="enter()"
+          [disabled]="disableEnter"
+          >Enter</ion-button
+        >
       </ion-col>
     </ion-row>
   </ion-grid>

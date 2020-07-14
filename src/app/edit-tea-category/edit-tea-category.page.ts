@@ -7,7 +7,7 @@ import { TeaCategoriesService } from '../services/tea-categories';
 @Component({
   selector: 'app-edit-tea-category',
   templateUrl: './edit-tea-category.page.html',
-  styleUrls: ['./edit-tea-category.page.scss']
+  styleUrls: ['./edit-tea-category.page.scss'],
 })
 export class EditTeaCategoryPage implements OnInit {
   private id: number;
@@ -17,7 +17,7 @@ export class EditTeaCategoryPage implements OnInit {
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
-    private teaCategories: TeaCategoriesService
+    private teaCategories: TeaCategoriesService,
   ) {}
 
   ngOnInit() {
@@ -30,10 +30,12 @@ export class EditTeaCategoryPage implements OnInit {
   }
 
   save() {
-    this.teaCategories.save({
-      id: this.id,
-      name: this.name,
-      description: this.description
-    }).subscribe(() => this.navController.back());
-   }
+    this.teaCategories
+      .save({
+        id: this.id,
+        name: this.name,
+        description: this.description,
+      })
+      .subscribe(() => this.navController.back());
+  }
 }

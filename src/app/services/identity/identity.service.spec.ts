@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import {
   createOverlayControllerMock,
   createPlatformMock,
   createRouterMock,
-  createStorageMock
+  createStorageMock,
 } from '../../../../test/mocks';
 import { environment } from '../../../environments/environment';
 import { BrowserAuthPlugin } from '../browser-auth/browser-auth.plugin';
@@ -27,7 +27,7 @@ describe('IdentityService', () => {
 
   beforeAll(() => {
     (window as any).IonicNativeAuth = new BrowserAuthPlugin(
-      new BrowserAuthService(createStorageMock())
+      new BrowserAuthService(createStorageMock()),
     );
   });
 
@@ -38,13 +38,13 @@ describe('IdentityService', () => {
         IdentityService,
         {
           provide: ModalController,
-          useFactory: () => createOverlayControllerMock('Modal')
+          useFactory: () => createOverlayControllerMock('Modal'),
         },
         { provide: Platform, useFactory: createPlatformMock },
         { provide: Router, useFactory: createRouterMock },
         { provide: SettingsService, useFactory: createSettingsServiceMock },
-        { provide: Storage, useFactory: createStorageMock }
-      ]
+        { provide: Storage, useFactory: createStorageMock },
+      ],
     });
 
     httpTestingController = TestBed.inject(HttpTestingController);
@@ -65,18 +65,18 @@ describe('IdentityService', () => {
           id: 42,
           firstName: 'Douglas',
           lastName: 'Adams',
-          email: 'thank.you@forthefish.com'
-        })
+          email: 'thank.you@forthefish.com',
+        }),
       );
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/users/current`
+        `${environment.dataService}/users/current`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush({
         id: 42,
         firstName: 'Douglas',
         lastName: 'Adams',
-        email: 'thank.you@forthefish.com'
+        email: 'thank.you@forthefish.com',
       });
       httpTestingController.verify();
     });
@@ -87,18 +87,18 @@ describe('IdentityService', () => {
           id: 42,
           firstName: 'Douglas',
           lastName: 'Adams',
-          email: 'thank.you@forthefish.com'
-        })
+          email: 'thank.you@forthefish.com',
+        }),
       );
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/users/current`
+        `${environment.dataService}/users/current`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush({
         id: 42,
         firstName: 'Douglas',
         lastName: 'Adams',
-        email: 'thank.you@forthefish.com'
+        email: 'thank.you@forthefish.com',
       });
       httpTestingController.verify();
       identity.get().subscribe(u =>
@@ -106,8 +106,8 @@ describe('IdentityService', () => {
           id: 42,
           firstName: 'Douglas',
           lastName: 'Adams',
-          email: 'thank.you@forthefish.com'
-        })
+          email: 'thank.you@forthefish.com',
+        }),
       );
       httpTestingController.verify();
     });
@@ -120,17 +120,17 @@ describe('IdentityService', () => {
           id: 314159,
           firstName: 'Sherry',
           lastName: 'Pigh',
-          email: 'alamode@test.org'
+          email: 'alamode@test.org',
         },
-        'I am a token of some sort'
+        'I am a token of some sort',
       );
       identity.get().subscribe(u =>
         expect(u).toEqual({
           id: 314159,
           firstName: 'Sherry',
           lastName: 'Pigh',
-          email: 'alamode@test.org'
-        })
+          email: 'alamode@test.org',
+        }),
       );
       httpTestingController.verify();
     });
@@ -140,14 +140,14 @@ describe('IdentityService', () => {
     beforeEach(() => {
       identity.get().subscribe();
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/users/current`
+        `${environment.dataService}/users/current`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush({
         id: 42,
         firstName: 'Douglas',
         lastName: 'Adams',
-        email: 'thank.you@forthefish.com'
+        email: 'thank.you@forthefish.com',
       });
       httpTestingController.verify();
       spyOn(identity, 'logout').and.returnValue(Promise.resolve());
@@ -159,14 +159,14 @@ describe('IdentityService', () => {
       await identity.remove();
       identity.get().subscribe();
       const req = httpTestingController.expectOne(
-        `${environment.dataService}/users/current`
+        `${environment.dataService}/users/current`,
       );
       expect(req.request.method).toEqual('GET');
       req.flush({
         id: 42,
         firstName: 'Douglas',
         lastName: 'Adams',
-        email: 'thank.you@forthefish.com'
+        email: 'thank.you@forthefish.com',
       });
       httpTestingController.verify();
     });

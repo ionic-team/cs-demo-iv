@@ -15,10 +15,12 @@ import { HomePage } from './home.page';
       {
         path: 'edit-tea-category',
         loadChildren: () =>
-          import('../edit-tea-category/edit-tea-category.module').then(m => m.EditTeaCategoryPageModule)
-      }
-    ])
+          import('../edit-tea-category/edit-tea-category.module').then(
+            m => m.EditTeaCategoryPageModule,
+          ),
+      },
+    ]),
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}
