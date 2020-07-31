@@ -10,14 +10,37 @@
 </ion-header>
 
 <ion-content class="ion-text-center ion-padding">
-  <img src="assets/img/appicon.svg" />
-  <h1>Ionic Identity Vault</h1>
-  <h2>Demo Application</h2>
-  <h3>Using Capacitor</h3>
-  <h3>Capacitor Version 2.4.0</h3>
-  <h3>Identity Vault Version 4.2.4</h3>
-  <h4>Current User: {{user?.email}}</h4>
-  <div>Auth Mode: {{authMode}}</div>
-  <div>Hardware: {{supportedHardware}}</div>
-  <div><a href="tel://9209884261">Call Me!!</a></div>
+  <div class="ion-text-center">
+    <img src="assets/img/appicon.svg" />
+    <h1>Ionic Identity Vault</h1>
+    <h2>Demo Application</h2>
+  </div>
+
+  <ion-list>
+    <ion-list-header>Versions</ion-list-header>
+    <ion-item>
+      <ion-label>Capacitor</ion-label>
+      <ion-note slot="end">2.4.0</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Identity Vault</ion-label>
+      <ion-note slot="end">4.2.4</ion-note>
+    </ion-item>
+
+    <ion-list-header>System</ion-list-header>
+    <ion-item>
+      <ion-label>Authentication Mode</ion-label>
+      <ion-note slot="end">{{authMode}}</ion-note>
+    </ion-item>
+    <ion-item>
+      <ion-label>Biometric Type</ion-label>
+      <ion-note slot="end">{{supportedHardware}}</ion-note>
+    </ion-item>
+
+    <ion-list-header>User</ion-list-header>
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-note slot="end">{{user && user.email}}</ion-note>
+    </ion-item>
+  </ion-list>
 </ion-content>
