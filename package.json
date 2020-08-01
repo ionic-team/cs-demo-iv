@@ -9,7 +9,7 @@
     "e2e": "ng e2e",
     "lint": "ng lint",
     "ng": "ng",
-    "postinstall": "ngcc",
+    "postinstall": "ngcc --tsconfig ./src/tsconfig.app.json",
     "start": "ng serve",
     "test": "ng test --browsers=ChromeHeadless"
   },

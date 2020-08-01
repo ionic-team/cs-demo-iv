@@ -51,7 +51,7 @@ describe('AppComponent', () => {
       platform = TestBed.inject(Platform);
     });
 
-    describe('on a mobile device', () => {
+    describe('in a web context', () => {
       beforeEach(() => {
         (platform.is as any).withArgs('hybrid').and.returnValue(false);
       });
