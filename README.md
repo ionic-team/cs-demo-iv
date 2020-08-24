@@ -24,8 +24,7 @@ password: test
 
 ### Authentication Service
 
-The `AuthentationService` handles the login and logout protocols for integrating with Azure, Cognito, Auth0, etc. including
-opening the webviews, and storing and fetching the tokens. You can determine the type of storage provider to use IdentityVault, LocalStorage, or a customer TokenStorageProvider implementation.
+The `AuthentationService` handles the login and logout for our backend. It also interacts with the `IdentityService` (outlines below) to add and remove the session on login/logout.
 
 ### Identity Service
 
