@@ -30,7 +30,9 @@ export class BrowserAuthService implements IdentityVault {
 
   async unsubscribe(): Promise<void> {}
 
-  async clear(): Promise<void> {}
+  async clear(): Promise<void> {
+    await this.storage.remove('session');
+  }
 
   async lock(): Promise<void> {}
 
