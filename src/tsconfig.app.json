@@ -5,5 +5,12 @@
     "baseUrl": "./"
   },
   "files": ["main.ts", "polyfills.ts"],
-  "include": ["src/**/*.d.ts"]
+  "include": ["src/**/*.d.ts"],
+  "exclude": [
+    "src/**/environment.prod.ts",
+    "src/**/*.mock.ts",
+    "src/**/*.spec.ts",
+    "src/**/testing.ts",
+    "src/**/test.ts"
+  ]
 }
