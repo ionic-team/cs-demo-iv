@@ -1,3 +1,7 @@
+# !!Deprecated!!
+
+This demo application has been deprecated and is no longer maintained. It will eventually be removed. Please see the [feature/identity-vault](https://github.com/ionic-team/tea-taster-angular/tree/feature/identity-vault) branch of our Angular training application instead.
+
 # Ionic Customer Success Demo - Identity Vault
 
 This application shows the use of Ionic's Identity Vault within a hybrid mobile application. We assume that you have access to Ioinic's Identity Vault product. If this is not the case, please contact our sales department.
